@@ -5,7 +5,7 @@ import time
 import zipfile
 
 def validBrowser(b: str):
-    return 'chrome' in b or 'edge' in b or 'firebox' in b or 'safari' in b
+    return 'chrome' in b or 'edge' in b or 'firebox' in b
 
 
 browserpreference = str()
@@ -14,7 +14,7 @@ browserpreference = str()
 browserIsAllowed = False
 
 while not browserIsAllowed:
-    browserpreference = str(input("Type your browser (Only available are: 'Chrome', 'Edge' (not Edge legacy), 'FireFox', 'Safari'): "))
+    browserpreference = str(input("Type your browser (Only available are: 'Chrome', 'Edge' (not Edge legacy), 'FireFox'): "))
     if validBrowser(browserpreference):
         browserIsAllowed = True
     else:
