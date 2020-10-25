@@ -4,6 +4,9 @@ import os
 import time
 import zipfile
 
+from selenium.common.exceptions import NoSuchElementException
+
+
 def validBrowser(b: str):
     return 'chrome' in b or 'edge' in b or 'firebox' in b
 
@@ -148,8 +151,8 @@ elif 'firefox' in browserpreference:
 
         browser = webdriver.Firefox(executable_path='C:/webdriver/geckodriver.exe')
 
-user_name = str(input("Type the username of person in: "))
-message = str(input("Type in the message you want to send: "))
+user_name = str(input(u"Type the username of person in: "))
+message = str(input(u"Type in the message you want to send: "))
 count = int(input("Type how many times the message should be send: "))
 
 default_message_key = str(input("For other message key class type name else type 'default' to skip it: "))
@@ -162,23 +165,28 @@ if 'default' in default_button_key:
 
 print("Scan the QR-Code in the browser window to open 'whatsapp' !")
 
-time.sleep(5)
+time.sleep(3)
 
 browser.get('https://web.whatsapp.com/')
 
-time.sleep(20)
+time.sleep(10)
+
+user = browser.find_element_by_xpath('//span[@title="{}"]'.format(user_name))
+user.click()
 
 i = 0
 while i < count:
-
-    user = browser.find_element_by_xpath('//span[@title="{}"]'.format(user_name))
-    user.click()
+ try:
 
     message_box = browser.find_element_by_xpath('//div[@class="{}"]'.format(default_message_key))
     message_box.send_keys(message)
 
     message_box = browser.find_element_by_xpath('//button[@class="{}"]'.format(default_button_key))
     message_box.click()
+ except NoSuchElementException:
+    print(i)
+    pass
+
     i+=1
 
 print("Program has exited.")
